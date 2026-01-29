@@ -1,0 +1,11 @@
+[project]
+name = "PipeLite"
+version = "0.1.0"
+description = "A simple, easy-to-use pipeline framework"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=2.3.5",
+    "pydantic>=2.12.5",
+    "toml>=0.10.2",
+]
