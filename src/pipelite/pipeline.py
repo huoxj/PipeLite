@@ -30,27 +30,34 @@ class Pipeline(Singleton):
         self.logger.info("Pipeline initialized.")
 
     def _load_atf(self, name: str):
-        if name not in self.artifacts:
-            raise ValueError(f"Artifact {name} is not registered.")
-        
-        module_name, cls_name = self.artifacts[name]
-        atf_cls = parse_class(module_name, cls_name)
-        
+        # if name not in self.artifacts:
+        #     raise ValueError(f"Artifact {name} is not registered.")
+
         atf_dir = self.config.atf_path + f"/{name}"
         os.makedirs(atf_dir, exist_ok=True)
-        atf = atf_cls.load(atf_dir)
+
+        # For implicitly declared artifact, use pickle by default
+        if name not in self.artifacts:
+            from pipelite.artifact import PickleArtifact
+            atf = PickleArtifact.load(atf_dir)
+        else:
+            module_name, cls_name = self.artifacts[name]
+            atf_cls = parse_class(module_name, cls_name)
+            atf = atf_cls.load(atf_dir)
         return atf
     
     def _save_atf(self, name: str, atf: object):
-        if name not in self.artifacts:
-            raise ValueError(f"Artifact {name} is not registered.")
-        
-        module_name, cls_name = self.artifacts[name]
-        atf_cls = parse_class(module_name, cls_name)
-        
         atf_dir = self.config.atf_path + f"/{name}"
         os.makedirs(atf_dir, exist_ok=True)
-        atf_cls.save(atf, atf_dir)
+
+        # For implicitly declared artifact, use pickle by default
+        if name not in self.artifacts:
+            from pipelite.artifact import PickleArtifact
+            PickleArtifact.save(atf, atf_dir)
+        else:
+            module_name, cls_name = self.artifacts[name]
+            atf_cls = parse_class(module_name, cls_name)
+            atf_cls.save(atf, atf_dir)
 
     def run_stage(self,
         name: str

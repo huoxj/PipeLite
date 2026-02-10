@@ -1,7 +1,5 @@
 # PipeLite
 
----
-
 ## What is PipeLite?
 
 PipeLite is a framework that provides modularity and caching support for pipelines, especially data engineering pipeline that contains time-consuming stages.
@@ -66,9 +64,12 @@ Todo
 
 ## Todo
 
-- [ ] Automatically handle common artifacts
+- [x] Automatically handle common artifacts
 - [ ] Pipeline visualization with mermaid or graphviz
 - [ ] Function as a stage
+- [ ] Multi-stage execution
+- [ ] Stage dependency handling
+- [ ] Support phony class as identifier for artifacts
 
 ## Why does PipeLite exist?
 
